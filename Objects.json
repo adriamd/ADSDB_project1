@@ -8,6 +8,7 @@
     {
         "id":"ine",
         "format":"csv",
+        "delim":";",
         "landing_temp_name":"50918.csv"
     }
 ]

@@ -13,7 +13,7 @@ from helper import *
 setwd()
 Objects = Objects()
 
-timestamp = dt.now().strftime("%Y%m%d-%H%M%S")
+timestamp = dt.now().strftime("%Y%m%d_%H%M%S")
 
 def storeLogTemp(tbl, file):
     file.write(tbl + "\n")

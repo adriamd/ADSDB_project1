@@ -15,3 +15,12 @@ data:
 
 - eurostat: https://ec.europa.eu/eurostat/databrowser/view/PRC_HICP_MIDX__custom_3484234/default/table?lang=en
 - ine:
+
+
+## Objects.json structure
+
+- id: identifier of the datasource
+- format: extension of the original file in the landing zone. allowed formats so far: csv, xlsx
+- delim: in case of format=csv, the delimiter character
+- landing_temp_name: regular expression to identify which files of the landing zone correspond to the datasource
+- (optional) landing_temp_tblID: identifier of the table within the dataset
