@@ -1,11 +1,8 @@
 # MOVE THE TABLES FROM LANDING TEMPORAL TO LANDING PERSISTANT
 
 # import libraries
-import pandas as pd
-import numpy as np
 import sys
 import os
-from datetime import datetime as dt
 import re
 
 # get the list of datasources to process
