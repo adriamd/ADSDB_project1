@@ -8,7 +8,6 @@
     {
         "id":"ine",
         "format":"csv",
-        "landing_temp_name":"50918.csv",
-        "landing_temp_tblID":"tbl001"
+        "landing_temp_name":"50918.csv"
     }
 ]

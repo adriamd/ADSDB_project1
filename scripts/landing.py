@@ -4,6 +4,7 @@
 import sys
 import os
 import re
+from datetime import datetime as dt
 
 # get the list of datasources to process
 sys.path.append('..')
@@ -12,6 +13,7 @@ from helper import *
 setwd()
 Objects = Objects()
 
+timestamp = dt.now().strftime("%Y%m%d-%H%M%S")
 
 def storeLogTemp(tbl, file):
     file.write(tbl + "\n")
@@ -41,15 +43,15 @@ def landingTemp2landingPers():
         files_datasource = [file for file in files_temp if re.match(pattern, file)]
 
         for file in files_datasource:
-            #tbl_id = re.search(datasource["landing_temp_tblID"], file).group(1) # id of the table within the dataset
-            # try ... except Exception: tbl_id = pattern -> this can be used in case the dataset contains a single table without any identifier in the name
-            try:
+            # copy the file with a standarized name
+            if "landing_temp_tblID" in datasource:
                 tbl_id = re.search(datasource["landing_temp_tblID"], file).group(1) # id of the table within the dataset
-            except Exception:
-                tbl_id = datasource["landing_temp_tblID"] # for datasets with a single table without any identifier in the name
+                to_file = f"{id}_{tbl_id}_{timestamp}.{format}"
+            else:
+                to_file = f"{id}_{timestamp}.{format}"
 
             from_file = os.path.join("data", "landing_temp", file)
-            to_file = os.path.join("data", "landing_pers", id, f"{id}_{tbl_id}.{format}")
+            to_file = os.path.join("data", "landing_pers", id, to_file)
             os.system(f"cp {from_file} {to_file}")
             storeLogTemp(file, f)
 
