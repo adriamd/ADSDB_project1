@@ -60,5 +60,6 @@ def landingTemp2landingPers():
                 os.mkdir(folder)
                 shutil.copyfile(from_file, to_file)
             storeLogTemp(file, f)
+    f.close()
 
 landingTemp2landingPers()
