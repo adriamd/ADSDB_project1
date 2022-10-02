@@ -5,6 +5,7 @@ import sys
 import os
 import re
 from datetime import datetime as dt
+import shutil
 
 # get the list of datasources to process
 sys.path.append('..')
@@ -52,7 +53,12 @@ def landingTemp2landingPers():
 
             from_file = os.path.join("data", "landing_temp", file)
             to_file = os.path.join("data", "landing_pers", id, to_file)
-            os.system(f"cp {from_file} {to_file}")
+            try:
+                shutil.copyfile(from_file, to_file)
+            except Exception:
+                folder = os.path.join(".", "data", "landing_pers", id)
+                os.mkdir(folder)
+                shutil.copyfile(from_file, to_file)
             storeLogTemp(file, f)
 
 landingTemp2landingPers()
