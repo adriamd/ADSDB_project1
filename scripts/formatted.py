@@ -31,17 +31,11 @@ def ProcessCSV(Datasource, Connection, Files, LogWriter):
             AS SELECT * FROM read_csv_auto(
                 './data/landing_pers/{id}/{file}',
                 HEADER = TRUE,
+                SAMPLE_SIZE=-1,
                 DELIM = '{delim}'
             ) 
             """)
         StoreLogPers(file, LogWriter)
-    
-def ProcessXLSX(Datasource, Connection, Files, LogWriter):
-    print("buah, compte amb els excels que solen estar bastant fets merda")
-    print("en el sentit que solen no estar en format de taula")
-    # if needed -> first convert to pandas and then upload to duckdb
-    # see formatted.ipynb for more info
-
     
 
 def LandingPers2Formatted():
@@ -70,10 +64,10 @@ def LandingPers2Formatted():
         
         if format == "csv":
             ProcessCSV(datasource, con, files, f)
-        elif format == "xlsx":
-            ProcessXLSX(datasource, con, files, f)
+        #elif format == "xlsx":
+        #    ProcessXLSX(datasource, con, files, f)
         else:
-            print(f"Format {format} is not supported\nSupported formats: csv, xlsx")
+            print(f"Format {format} is not supported\nSupported formats: csv")
 
         # close database
         con.close()

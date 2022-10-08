@@ -1,14 +1,21 @@
 [
     {
-        "id":"eurostat",
-        "format":"xlsx",
-        "landing_temp_name":"prc_hicp_midx__custom_.*_spreadsheet.xlsx",
-        "landing_temp_tblID":"prc_hicp_midx__custom_(.*)_spreadsheet.xlsx"
+        "id":"housing",
+        "format":"csv",
+        "landing_temp_name":"housing_v[0-9]+.csv",
+        "landing_temp_tblID":"housing_(v.*).csv"
+    }
+    ,
+    {
+        "id":"schools",
+        "format":"csv",
+        "landing_temp_name":"Public_Schools-.*.csv",
+        "landing_temp_tblID":"Public_Schools-(.*).csv"
     },
     {
-        "id":"ine",
+        "id":"hospitals",
         "format":"csv",
-        "delim":";",
-        "landing_temp_name":"50918.csv"
+        "landing_temp_name":"Hospitals-.*.csv",
+        "landing_temp_tblID":"Hospitals-(.*).csv"
     }
 ]
