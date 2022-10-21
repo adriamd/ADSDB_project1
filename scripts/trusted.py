@@ -99,7 +99,7 @@ def formatted2trusted():
 
         prof = pd.DataFrame.from_dict(profiling_df(df))
         con = duckdb.connect(database="data/trusted/db_{}.db".format(id), read_only=False)
-        con.execute("CREATE OR REPLACE TABLE profiling AS SELECT * FROM prof")
+        con.execute("CREATE OR REPLACE TABLE {}_profiling AS SELECT * FROM prof".format(id))
         con.close()
 
         with open('logs/processed_data_trusted.txt', "a") as f0:
