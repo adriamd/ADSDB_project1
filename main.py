@@ -3,11 +3,7 @@ import helper
 from scripts.formatted import LandingPers2Formatted
 from scripts.landing import landingTemp2landingPers
 from scripts.trusted import formatted2trusted
-sys.path.append("scripts")
 
-from landing import *
-from formatted import *
-from trusted import *
 # from exploitation import *
 # eda?
 
