@@ -40,6 +40,37 @@ def reset_trusted():
 def reset_exploitation():
     os.remove('data/exploitation/exploitation.db')
 
+def read_datasets_conf():
+    keep_reading = True
+    conf = []
+    while(keep_reading):
+        newconf = {}
+        id = input("Enter dataset id or click 0 to finish the process\n")
+        if id == "0":
+            keep_reading = False
+        else:
+            newconf['id'] = id
+            format = input("Select a file format. Allowed formats: [1] CSV\n")
+            format = {"1":"csv"}[format]
+            newconf['format'] = format
+            if format == "csv":
+                delim = input("Enter the CSV delimiter\n")
+                newconf['delim'] = delim
+            landing_temp_name = input("Enter a regular expression for the files in temporal zone\n")
+            newconf['landing_temp_name'] = landing_temp_name
+            landing_temp_tblID = input(f"Enter a regular expression to get the ID of each table within {id} dataset\n")
+            newconf['landing_temp_tblID'] = landing_temp_tblID
+            conf.append(newconf)
+
+    save_conf = input("Save selected configuration? Y/N\n")
+    if save_conf.lower() == "y":
+        conf_name = input("Enter new configuration name: ")
+        with open(conf_name + '.json', "w") as f:
+            f.write(str(conf).replace("'", '"'))
+        print(conf_name + '.json saved')
+    return conf
+
+
 def select_action():
     x = input("Select an option:\n[1] Run zones\n[2] Reset a zone\n[3] Exit\n")
     if x == "3": return
@@ -50,8 +81,9 @@ def select_action():
         if y == "2":
             Objects = helper.Objects(filename = input("filename: "))
         if y == "3":
-            print("Option in development. Using the default configuration.") # TODO
-            Objects = helper.Objects()
+            #print("Option in development. Using the default configuration.") # TODO
+            Objects = read_datasets_conf()
+            #Objects = helper.Objects()
 
         select_process(Objects)
     if x == "2":
