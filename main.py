@@ -51,6 +51,7 @@ def select_action():
             Objects = helper.Objects(filename = input("filename: "))
         if y == "3":
             print("Option in development. Using the default configuration.") # TODO
+            Objects = helper.Objects()
 
         select_process(Objects)
     if x == "2":
