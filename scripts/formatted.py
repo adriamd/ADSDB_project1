@@ -6,13 +6,6 @@ import sys
 import os
 import duckdb
 
-# get the list of datasources to process
-sys.path.append('..')
-sys.path.append('.')
-from helper import *
-setwd()
-Objects = Objects()
-
 def StoreLogPers(tbl, file):
     file.write(tbl + "\n")
 
@@ -38,7 +31,7 @@ def ProcessCSV(Datasource, Connection, Files, LogWriter):
         StoreLogPers(file, LogWriter)
     
 
-def LandingPers2Formatted():
+def LandingPers2Formatted(Objects):
 
     # list of files already processed:
     processedFiles = []
@@ -74,4 +67,12 @@ def LandingPers2Formatted():
 
     f.close()
 
-LandingPers2Formatted()
+
+if __name__ == "__main__":
+    sys.path.append('..')
+    sys.path.append('.')
+    from helper import *
+
+    setwd()
+    Objects = Objects()
+    LandingPers2Formatted(Objects)

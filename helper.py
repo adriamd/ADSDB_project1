@@ -6,8 +6,8 @@ import os
 # return a dictionary with the list of
 # datasets to be processed and all the
 # parameters needed for the preprocessing
-def Objects():
-    with open('Objects.json') as f:
+def Objects(filename = 'Objects.json'):
+    with open(filename) as f:
         Object = json.load(f)
     return Object
 

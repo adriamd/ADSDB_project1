@@ -54,7 +54,7 @@ def standarMissings(df):
             df[col_name] = df[col_name].replace("NOT AVAILABLE", "unknow")
 
 
-def formatted2trusted():
+def formatted2trusted(Objects):
 
     processed_table = []
     with open('logs/processed_data_trusted.txt', "r") as f0:
@@ -114,4 +114,4 @@ if __name__ == "__main__":
 
     setwd()
     Objects = Objects()
-    formatted2trusted()
+    formatted2trusted(Objects)
