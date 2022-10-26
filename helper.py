@@ -30,61 +30,7 @@ def numeric_description(df):
     return df_numeric_description.drop(['count'], axis=1)
 
 # input: dataframe
-# output: histograms of the numerical features from the dataframe
-def hist(df, bins=50):
-    name_columns = list(df.columns)
-    types_columns = [str(x) for x in list(df.dtypes)]
-    columnss = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
-    
-    for i,t in columnss:
-
-        if t != "float64" and t != "int32":
-            continue
-
-        df[i].hist(bins=bins)
-        plt.title(i)
-        plt.show()
-
-def boxplot(df):
-    name_columns = list(df.columns)
-    types_columns = [str(x) for x in list(df.dtypes)]
-    columnss = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
-    
-    for i,t in columnss:
-
-        if t != "float64" and t != "int32":
-            continue
-
-        df.loc[:, [i]].boxplot();
-        plt.title(i)
-        plt.show()
-
-def correlation(df):
-
-    corr = df.corr()
-    sns.heatmap(corr, vmax=.3, center=0,
-                square=True, linewidths=.5, cbar_kws={"shrink": .5})
-
-def barplot(df,top=10,freq=False):
-    n = len(df)
-    name_columns = list(df.columns)
-    types_columns = [str(x) for x in list(df.dtypes)]
-    columns = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
-    
-
-    for i,t in columns:
-
-        if t != "object":
-            continue
-
-        if freq:
-            df[i].value_counts().head(top).apply(lambda x : x/n).plot( kind='bar')
-        else:
-            df[i].value_counts().head(top).plot( kind='bar')
-        plt.title(i)
-        plt.show()
-
-
+# output: description of the categorical features from the dataframe
 def description_categorical(df):
     n = len(df)
     name_columns = list(df.columns)
@@ -121,3 +67,63 @@ def description_categorical(df):
             cat_dict["Unknows (%)"].append(0)
 
     return pd.DataFrame(cat_dict)
+
+# input: dataframe
+# output: histograms of the numerical features from the dataframe
+def hist(df, bins=50):
+    name_columns = list(df.columns)
+    types_columns = [str(x) for x in list(df.dtypes)]
+    columnss = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
+    
+    for i,t in columnss:
+
+        if t != "float64" and t != "int32":
+            continue
+
+        df[i].hist(bins=bins)
+        plt.title(i)
+        plt.show()
+
+# input: dataframe
+# output: box plot of the numerical features from the dataframe
+def boxplot(df):
+    name_columns = list(df.columns)
+    types_columns = [str(x) for x in list(df.dtypes)]
+    columnss = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
+    
+    for i,t in columnss:
+
+        if t != "float64" and t != "int32":
+            continue
+
+        df.loc[:, [i]].boxplot();
+        plt.title(i)
+        plt.show()
+# input: dataframe
+# output: correlation matrix of the numerical features from the dataframe
+def correlation(df):
+
+    corr = df.corr()
+    sns.heatmap(corr, vmax=.3, center=0,
+                square=True, linewidths=.5, cbar_kws={"shrink": .5})
+
+# input: dataframe
+# output: bar plot of the categorical features from the dataframe
+def barplot(df,top=10,freq=False):
+    n = len(df)
+    name_columns = list(df.columns)
+    types_columns = [str(x) for x in list(df.dtypes)]
+    columns = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
+    
+
+    for i,t in columns:
+
+        if t != "object":
+            continue
+
+        if freq:
+            df[i].value_counts().head(top).apply(lambda x : x/n).plot( kind='bar')
+        else:
+            df[i].value_counts().head(top).plot( kind='bar')
+        plt.title(i)
+        plt.show()
