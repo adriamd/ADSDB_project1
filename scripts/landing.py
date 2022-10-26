@@ -7,19 +7,11 @@ import re
 from datetime import datetime as dt
 import shutil
 
-# get the list of datasources to process
-sys.path.append('..')
-sys.path.append('.')
-from helper import *
-setwd()
-Objects = Objects()
-
-timestamp = dt.now().strftime("%Y%m%d_%H%M%S")
-
 def storeLogTemp(tbl, file):
     file.write(tbl + "\n")
 
-def landingTemp2landingPers():
+def landingTemp2landingPers(Objects):
+    timestamp = dt.now().strftime("%Y%m%d_%H%M%S")
     
     # read all the files in the landing_temp folder
     files_temp = os.listdir('data/landing_temp')
@@ -62,4 +54,12 @@ def landingTemp2landingPers():
             storeLogTemp(file, f)
     f.close()
 
-landingTemp2landingPers()
+
+if __name__ == "__main__":
+    sys.path.append('..')
+    sys.path.append('.')
+    from helper import *
+
+    setwd()
+    Objects = Objects()
+    landingTemp2landingPers(Objects)

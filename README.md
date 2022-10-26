@@ -2,7 +2,7 @@
 
 Store the original files in ./data/landing_temp and run the python files in ./scripts to process each step from one zone to the following one. The notebooks in ./notebooks have been used to develope the code.
 
-(maybe it could be useful to have a main.py file that runs all the zones?)
+Or run main.py to orquestrate all steps
 
 The logs of which files are processed are stored in ./logs, so files already processed are not processed again.
 
@@ -13,6 +13,8 @@ So far we have this: (???)
 - ine:
 
 Objects.json contains the properties of all the objects to be processed. So, to add a new object to the pipeline, it is only needed to add it to Objects.json
+
+Otherwise, the orchestration process in main.py allows to select other configurations
 
 
 
