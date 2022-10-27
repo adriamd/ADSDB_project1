@@ -114,10 +114,12 @@ def select_process(Objects):
         print("done!")
         return select_process(Objects)
     elif z == "5":
+        distance = float(input("Select maximum distance (km): "))
+        limit = int(input("Select number of rows to be used or enter 0 to use all rows: "))
         landingTemp2landingPers(Objects)
         LandingPers2Formatted(Objects)
         formatted2trusted(Objects)
-        print("falta la exploitation\n") # TODO
+        trusted2exploitation(Objects, distance, limit)
         return select_action()
     elif z == "6":
         return select_action()
