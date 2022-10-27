@@ -3,9 +3,7 @@ import helper
 from scripts.formatted import LandingPers2Formatted
 from scripts.landing import landingTemp2landingPers
 from scripts.trusted import formatted2trusted
-
-# from exploitation import *
-# eda?
+from scripts.exploitation import trusted2exploitation
 
 import os
 
@@ -38,7 +36,10 @@ def reset_trusted():
     open('logs/processed_data_trusted.txt', 'w').close()
 
 def reset_exploitation():
-    os.remove('data/exploitation/exploitation.db')
+    files = os.listdir('data/exploitation')
+    for file in files:
+        if not file == ".keep":
+           os.remove(os.path.join('data/exploitation', file))
 
 def read_datasets_conf():
     keep_reading = True
@@ -74,7 +75,7 @@ def read_datasets_conf():
 def select_action():
     x = input("Select an option:\n[1] Run zones\n[2] Reset a zone\n[3] Exit\n")
     if x == "3": return
-    if x == "1":
+    elif x == "1":
         y = input("Select list of datasets:\n[1] Use default datasets\n[2] Use a json file with datasets\n[3] Enter custom configuration\n")
         if y == "1":
             Objects = helper.Objects()
@@ -86,8 +87,11 @@ def select_action():
             #Objects = helper.Objects()
 
         select_process(Objects)
-    if x == "2":
+    elif x == "2":
         select_reset_zone()
+    else:
+        select_action()
+
 
 def select_process(Objects):
     z = input("Select process to execute:\n[1] Landing temp -> Landing pers\n[2] Landing pers -> Formatted\n[3] Formatted -> Trusted\n[4] Trusted -> Exploitation\n[5] Run all\n[6] Go back\n")
@@ -95,25 +99,29 @@ def select_process(Objects):
         landingTemp2landingPers(Objects)
         print("done!")
         return select_process(Objects)
-    if z == "2":
+    elif z == "2":
         LandingPers2Formatted(Objects)
         print("done!")
         return select_process(Objects)
-    if z == "3":
+    elif z == "3":
         formatted2trusted(Objects)
         print("done!")
         return select_process(Objects)
-    if z == "4":
-        print("TRUSTED TO EXPLOITATION NOT READY YET\n") #TODO
-        # estaria guai passarli parametres tipus: distancia per utilitzar en les queries, limit de files en la query
+    elif z == "4":
+        distance = float(input("Select maximum distance (km): "))
+        limit = int(input("Select number of rows to be used or enter 0 to use all rows: "))
+        trusted2exploitation(Objects, distance, limit)
+        print("done!")
         return select_process(Objects)
-    if z == 5:
+    elif z == "5":
         landingTemp2landingPers(Objects)
         LandingPers2Formatted(Objects)
         formatted2trusted(Objects)
         print("falta la exploitation\n") # TODO
-        return select_action(Objects)
-    if z == "6":
+        return select_action()
+    elif z == "6":
+        return select_action()
+    else:
         return select_action()
 
 def select_reset_zone():
@@ -122,27 +130,28 @@ def select_reset_zone():
         reset_landing()
         print("Landing zone has been reset")
         return select_reset_zone()
-    if x == "2":
+    elif x == "2":
         reset_formatted()
         print("Formatted zone has been reset")
         return select_reset_zone()
-    if x == "3":
+    elif x == "3":
         reset_trusted()
         print("Trusted zone has been reset")
         return select_reset_zone()
-    if x == "4":
+    elif x == "4":
         reset_exploitation()
         print("Exploitation zone has been reset")
         return select_reset_zone()
-    if x == "5":
+    elif x == "5":
         reset_landing()
         reset_formatted()
         reset_trusted()
         reset_exploitation()
         print("All zones have been reset")
         return select_action()
-    if x == "6":
+    elif x == "6":
         return select_action()
+    else: select_reset_zone()
 
 
 
