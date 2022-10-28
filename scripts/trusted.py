@@ -6,6 +6,7 @@ import duckdb
 import numpy as np
 import pandas as pd
 
+# drop all columns with more than alpha misses frequency or are constants
 def drop_columns(df,alpha=0.9, constants=True):
     types_df = [str(x) for x in list(df.dtypes)]
     columns_names = list(df.columns)
@@ -36,8 +37,8 @@ def drop_columns(df,alpha=0.9, constants=True):
 
     return df.drop(drop_list,axis=1)
 
-
-def standarMissings(df):
+# transform all codes of missings to np.nan for numeric and unknown for the others
+def standar_missings(df):
     types_df = [str(x) for x in list(df.dtypes)]
     columns_names = list(df.columns)
 
@@ -83,7 +84,7 @@ def formatted2trusted(Objects):
         con.close()
 
         df = pd.concat(dataframes)
-        standarMissings(df)
+        standar_missings(df)
         df.drop_duplicates()
         df = drop_columns(df)
 

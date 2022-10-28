@@ -6,8 +6,8 @@ import duckdb
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-#"cats_allowed","dogs_allowed","smoking_allowed","wheelchair_access","comes_furnished"
 
+# Transform binary variables from 1s and 0s to Yes and No
 def binary_preprocesing(df,cols):
     for i in cols:
         df[i].replace(0,"No", inplace=True)
@@ -15,11 +15,13 @@ def binary_preprocesing(df,cols):
 
     return df
 
+# The variables that can not be 0 are changed by np.nan
 def non_0_variables(df,cols):
     for i in cols:
         df[i].replace(0, np.nan, inplace=True)
     return df
 
+# execute the specific transformations for housing 
 def trusted_housing():
 
     con = duckdb.connect(database="data/trusted/db_housing.db", read_only=False)
