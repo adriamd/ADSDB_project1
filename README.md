@@ -9,9 +9,9 @@ The analytical question is if we can calculate the rent per month of one house b
 
 ## Development & Operations
 
-To run the code, one needs first to store the initial data in the temporal landing zone. The initial data can be found in this Google Drive folder and the temporal landing zone is the directory data/landing_temp in the Github repository.
+To run the code, one needs first to store the initial data in the temporal landing zone. The initial data can be found in this Google Drive folder and the temporal landing zone is the directory data/landing_temp in the Github repository. Initial data: https://drive.google.com/drive/folders/1Lho7wBMDLHyF6k3rneeNgb3Kfpvbyr5Q
 
-Once the initial data is in the temporal landing zone, running either the operations scripts in the folder scripts or the orchestration file main.py will transform the data across the different zones,  represented by the various subdirectories in data.
+Once the initial data is in the temporal landing zone, running either the operations scripts in the folder scripts or the orchestration file main.py will transform the data across the different zones, represented by the various subdirectories in data.
 
 The complete joint in the exploitation zone takes a long time (1h), so it is better to limit the rows used (1000 rows) for a quick test.
 
