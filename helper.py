@@ -37,7 +37,7 @@ def description_categorical(df):
     types_columns = [str(x) for x in list(df.dtypes)]
     columns = [(name_columns[i],types_columns[i]) for i in range(len(name_columns))]
     
-    cat_dict = dict({"": [],"#Levels":[],"Max freq":[],"Min freq":[],"#Unknows":[],"Unknows (%)":[]})
+    cat_dict = dict({"": [],"#Levels":[],"Max Freq (Abs,%)":[],"Min Freq (Abs,%)":[],"#Unknows":[],"Unknows (%)":[]})
 
     for i,t in columns:
 
@@ -55,8 +55,8 @@ def description_categorical(df):
 
         cat_dict[""].append(i)
         cat_dict["#Levels"].append(len(freq_list))
-        cat_dict["Max freq"].append(max_freq)
-        cat_dict["Min freq"].append(min_freq)
+        cat_dict["Max Freq (Abs,%)"].append(max_freq)
+        cat_dict["Min Freq (Abs,%)"].append(min_freq)
         
         if "unknow" in freq:
             cat_dict["#Unknows"].append(freq["unknow"])
@@ -99,13 +99,16 @@ def boxplot(df):
         df.loc[:, [i]].boxplot();
         plt.title(i)
         plt.show()
+
+def scatter(df):
+    sns.pairplot(df, kind="scatter")
+
 # input: dataframe
 # output: correlation matrix of the numerical features from the dataframe
 def correlation(df):
-
-    corr = df.corr()
-    sns.heatmap(corr, vmax=.3, center=0,
-                square=True, linewidths=.5, cbar_kws={"shrink": .5})
+    plt.figure(figsize=(10, 10))
+    heatmap = sns.heatmap(df.corr().applymap(lambda x:round(x,2)), vmax=1.0, vmin=-1.0, center=0, square=True, linewidths=.5, annot=True)
+    heatmap.set_title('Correlation', fontdict={'fontsize':12}, pad=12);
 
 # input: dataframe
 # output: bar plot of the categorical features from the dataframe
@@ -127,3 +130,5 @@ def barplot(df,top=10,freq=False):
             df[i].value_counts().head(top).plot( kind='bar')
         plt.title(i)
         plt.show()
+
+
