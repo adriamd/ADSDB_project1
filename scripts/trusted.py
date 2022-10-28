@@ -6,32 +6,35 @@ import duckdb
 import numpy as np
 import pandas as pd
 
-
-
-def profiling_df(df):
+def drop_columns(df,alpha=0.9, constants=True):
     types_df = [str(x) for x in list(df.dtypes)]
     columns_names = list(df.columns)
-    missings = dict()
+    missings = 0
+    n = len(df)
+    drop_list = []
 
     for i in range(len(columns_names)):
 
         if types_df[i] == "float64" or types_df[i] == "int32":
-            missings[columns_names[i]] = df[columns_names[i]].isna().sum()
+            missings = df[columns_names[i]].isna().sum()
+            
+            if constants and min(df[columns_names[i]]) == max(df[columns_names[i]]):
+                drop_list.append(columns_names[i])
+                continue
 
         elif types_df[i] == "object":
             counts = dict(df[columns_names[i]].value_counts())
             if "unknow" in counts:
-                missings[columns_names[i]] = counts["unknow"]
-            else:
-                missings[columns_names[i]] = 0
+                missings = counts["unknow"]
 
-    cols = []
-    miss = []
-    for x, y in missings.items():
-        cols.append(x)
-        miss.append(y)
+            if constants and len(counts) == 1:
+                drop_list.append(columns_names[i])
+                continue
 
-    return {"Columns": cols, "Missings": miss}
+        if missings/n > alpha:
+            drop_list.append(columns_names[i])
+
+    return df.drop(drop_list,axis=1)
 
 
 def standarMissings(df):
@@ -82,6 +85,7 @@ def formatted2trusted(Objects):
         df = pd.concat(dataframes)
         standarMissings(df)
         df.drop_duplicates()
+        df = drop_columns(df)
 
         my_file = Path("data/trusted/db_{}.db".format(id))
         if my_file.is_file():
@@ -89,6 +93,7 @@ def formatted2trusted(Objects):
             df_original = con.execute("SELECT * FROM {}".format(id)).fetchdf()
             df = pd.concat([df,df_original])
             df.drop_duplicates()
+            df = drop_columns(df)
             con.execute("CREATE OR REPLACE TABLE {} AS SELECT * FROM df".format(id))
             con.close()
 
@@ -97,10 +102,8 @@ def formatted2trusted(Objects):
             con.execute("CREATE TABLE {} AS SELECT * FROM df".format(id))
             con.close()
 
-        prof = pd.DataFrame.from_dict(profiling_df(df))
-        con = duckdb.connect(database="data/trusted/db_{}.db".format(id), read_only=False)
-        con.execute("CREATE OR REPLACE TABLE {}_profiling AS SELECT * FROM prof".format(id))
-        con.close()
+        if os.path.exists("scripts/trusted_{}.py".format(id)):
+            os.system("python3 ./scripts/trusted_{}.py".format(id))
 
         with open('logs/processed_data_trusted.txt', "a") as f0:
             for table in tables_not_processed:

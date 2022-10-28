@@ -101,7 +101,19 @@ def boxplot(df):
         plt.show()
 
 def scatter(df):
-    sns.pairplot(df, kind="scatter")
+    name_columns = list(df.columns)
+    types_columns = [str(x) for x in list(df.dtypes)]
+    columns = [name_columns[i] for i in range(len(name_columns)) if types_columns[i] == "float64" or types_columns[i] == "int32"]
+    
+    for i in range(len(columns)):
+        for j in range(i+1,len(columns)):
+
+            fig, ax = plt.subplots()
+            plt.scatter(df[columns[i]], df[columns[j]])
+            ax.set_xlabel(columns[i])
+            ax.set_ylabel(columns[j])
+            ax.set_title("Scatter plot " + columns[i] + " and " + columns[j])
+            plt.show()
 
 # input: dataframe
 # output: correlation matrix of the numerical features from the dataframe
