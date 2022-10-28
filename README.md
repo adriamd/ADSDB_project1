@@ -1,31 +1,18 @@
 # ADSDB_project1
 
-Store the original files in ./data/landing_temp and run the python files in ./scripts to process each step from one zone to the following one. The notebooks in ./notebooks have been used to develope the code.
+## Context 
+For this project, we chose to focus on the price of renting houses in the United States.
 
-Or run main.py to orquestrate all steps
+To carry out this project we chose as the main dataset one of US houses, that give us some characteristics like square feet, number of beds and its price (rent per month). In order to complement this information we select two additional datasets. The first one is about hospitals in the US and the second one is about schools.These two datasets will enrich the houses datasets giving how many hospitals and schools are near one house, also give us some characteristics like the type of hospital (general, psychiatric, long term care, etc.), the owner (governmental, proprietary, non-profit, etc.) or in the case of schools if is preschool, elementary, middle or high school.
 
-The logs of which files are processed are stored in ./logs, so files already processed are not processed again.
+The analytical question is if we can calculate the rent per month of one house based on knowledge of the house, square feet of house, number of beds, baths, etc. and the proximity of hospitals and schools.
 
-## Data
+## Development & Operations
 
-So far we have this: (???)
-- eurostat: https://ec.europa.eu/eurostat/databrowser/view/PRC_HICP_MIDX__custom_3484234/default/table?lang=en
-- ine:
+To run the code, one needs first to store the initial data in the temporal landing zone. The initial data can be found in this Google Drive folder and the temporal landing zone is the directory data/landing_temp in the Github repository.
 
-Objects.json contains the properties of all the objects to be processed. So, to add a new object to the pipeline, it is only needed to add it to Objects.json
+Once the initial data is in the temporal landing zone, running either the operations scripts in the folder scripts or the orchestration file main.py will transform the data across the different zones,  represented by the various subdirectories in data.
 
-Otherwise, the orchestration process in main.py allows to select other configurations
+The complete joint in the exploitation zone takes a long time (1h), so it is better to limit the rows used (1000 rows) for a quick test.
 
-
-
-## Landing and formatted zones
-
-Since these two steps are the same for every possible datasource (trusted and explotation zones may require adhoc processing for each datasource), Objects.json contains the properties of all the objects to be processed. So, to add a new object to the pipeline, it is only needed to add it to Objects.json.
-
-### Objects.json structure
-
-- id: identifier of the datasource
-- format: extension of the original file in the landing zone. allowed formats so far: csv, xlsx
-- (optional) delim: in case of format=csv, the delimiter character
-- landing_temp_name: regular expression to identify which files of the landing zone correspond to the datasource
-- (optional) landing_temp_tblID: identifier of the table within the dataset
+The repository also includes a virtual environment (in the folder venv) with the required Python libraries and versions needed.
